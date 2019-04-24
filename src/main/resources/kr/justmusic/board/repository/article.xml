@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.justmusic.board.repository.ArticleMapper">
+
+    <select id="selectOne" resultType="article">
+        SELECT no,
+                title,
+                writer,
+                content
+        FROM article
+        WHERE no=#{no}
+    </select>
+
+    <select id="selectAll" resultType="article">
+        SELECT *
+        FROM article;
+    </select>
+
+    <insert id="insert">
+        INSERT INTO article (no, title, writer, content)
+        values (null, #{title}, #{writer}, #{content})
+    </insert>
+
+</mapper>

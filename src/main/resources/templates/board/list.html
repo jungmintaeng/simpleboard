@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 리스트</title>
+    <style>
+        .displaynone {
+            display : none;
+        }
+
+        tr {
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            var trs = document.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+            var trOnclick = function () {
+                if (typeof this.nextSibling.classList !== 'undefined' && this.nextSibling.classList.contains("content") === true) {
+                    this.parentElement.removeChild(this.nextSibling);
+                    return;
+                }
+
+                var content = this.getElementsByClassName("displaynone")[0].innerHTML;
+                var wrapper = document.createElement("tr");
+                wrapper.classList.add("content");
+                var newTd = document.createElement("td");
+                newTd.colSpan = 3;
+                newTd.innerText = content;
+                wrapper.appendChild(newTd);
+
+                this.parentNode.insertBefore(wrapper, this.nextSibling);
+            };
+
+            for (var i = 0; i < trs.length; i++) {
+                trs[i].onclick = trOnclick;
+            }
+        };
+    </script>
+</head>
+<body>
+<table border="1">
+    <thead>
+    <tr>
+        <td>번호</td>
+        <td>제목</td>
+        <td>작성자</td>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="article,index :${articleList}">
+        <td th:text="${article.no}">번호</td>
+        <td th:text="${article.title}">제목</td>
+        <td th:text="${article.writer}">작성자</td>
+        <td class="displaynone" th:text="${article.content}">내용</td>
+    </tr>
+    </tbody>
+</table>
+<button><a href="/board/write">글쓰기</a></button>
+</body>
+</html>
